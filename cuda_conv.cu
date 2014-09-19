@@ -52,6 +52,10 @@ __global__ void valid_conv_kernel(float * img_base, float * filter_base, float *
 
 
 Status cuda_conv(Image img, Kernel ker, float *result){
+	Status s = conv_validate(img, ker);
+	if(s.error != ALL_RIGHT){
+		return s;
+	}
 	float  *img_base, *ker_base, *result_base;
 	int img_size = img.image_x_dim * img.image_y_dim * img.image_channel * img.image_stack_num;
 	int ker_size = ker.kernel_x_dim * ker.kernel_y_dim * ker.kernel_channel * ker.kernel_stack_num;

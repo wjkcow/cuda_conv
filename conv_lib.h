@@ -1,6 +1,6 @@
 
 #ifndef CONV_LIB_H
-#define CONV_LIB_H
+#define CONV_LIB_Hw
 
 typedef char CONV_TYPE;
 #define VALID 0
@@ -51,7 +51,7 @@ typedef struct conv_t {
 
 Status conv_alloc(Conv *conv);
 Status conv_free(Conv *conv);
-Status conv_validate(Conv *conv);
+Status conv_validate(Image img, Kernel ker);
 
 
 void seperate_image_stack();
