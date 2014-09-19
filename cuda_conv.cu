@@ -77,7 +77,6 @@ Status cuda_conv(Image img, Kernel ker, float *result){
 		ker.kernel_x_dim, ker.kernel_y_dim);
 
 	cudaMemcpy(result, result_base, result_size*sizeof(float), cudaMemcpyDeviceToHost);
-	Status s;
 	s.msg_len = 0;
 	s.error = ALL_RIGHT;
 	return s;

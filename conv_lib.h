@@ -1,13 +1,13 @@
 
 #ifndef CONV_LIB_H
-#define CONV_LIB_Hw
+#define CONV_LIB_H
 
 typedef char CONV_TYPE;
 #define VALID 0
 
 typedef char STATUS_CODE;
 #define ALL_RIGHT    0
-#define INVAID_INPUT 1
+#define INVALID_INPUT 1
 
 typedef struct Status_t{
 	char * error_msg;

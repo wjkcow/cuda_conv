@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include<cstring>
 #include <iostream>
 #include "conv_lib.h"
 #include "cuda_conv.h"
@@ -22,13 +23,13 @@ int main(){
 	img.image_base = new float[50];
 	ker.kernel_base = new float[2];
 
-	memset(img.image_base, 0, 50);
-	memset(ker.kernel_base, 0, 2);
+	memset(img.image_base, 1, 50);
+	memset(ker.kernel_base, 1, 2);
 
 
 	float * result = new float[1000];
 	memset(result, 0, 1000);
-	cuda_conv(Image img, Kernel ker, float *result);
+	cuda_conv(img,ker,result);
 	int count = 0;
 
 	for(int c = 0; c < img.image_channel; ++c){
@@ -47,6 +48,7 @@ int main(){
 	for(int i = 0; i < count; ++i){
 		cout << result[i++];
 	}
+	cout << endl;
 	return 0;
 
 }
