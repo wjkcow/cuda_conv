@@ -6,14 +6,13 @@
 // img[stack_num][channel][img_y][img_x]                                          5000 3 96 96
 // kernel[kernel_stack_num][channel][kernel_y][kernex_x]                          96   3 7  7
 // result[stack_num][kernel_stack_num][img_y-kernel_y + 1][img_x - kernel_x + 1]  5000 96 90 90
-__global__ void valid_conv_kernel(float * img_base, float * filter_base, float * result_base
+__global__ void valid_conv_kernel(float * img_base, float * filter_base, float * result_base,
 	int img_x_dim, int img_y_dim, int channel,
 	int filter_x_dim, int filter_y_dim){
 
-	int img_stack      =  blockID.x;  // 5000
-	int img_stack_dim  = blockDim.x;
+	int img_stack      =  blockIdx.x;  // 5000
 
-	int filter_stack   =  blockID.y; // 96
+	int filter_stack   =  blockIdx.y; // 96
 	int filter_stack_dim = blockDim.y;
 
 
@@ -25,7 +24,7 @@ __global__ void valid_conv_kernel(float * img_base, float * filter_base, float *
 	float * my_result_base = result_base + img_stack * filter_stack_dim * result_x_dim * result_y_dim 
 	                         + filter_stack * result_x_dim + result_y_dim;
 
-#define result_v2(Y, X)     *(my_result_base + ( Y ) * result_x_dim + X);
+#define result_v2(Y, X)     *(my_result_base + ( Y ) * result_x_dim + X)
 #define filter_v3(C, Y, X)  *(my_filter_base + ( C )* filter_x_dim * filter_y_dim + ( Y ) * filter_x_dim + (X) )
 #define img_v3(C, Y, X) 	*(my_img_base + ( C ) * img_y_dim * img_x_dim + ( Y )* img_x_dim + (X) )
 
@@ -74,6 +73,10 @@ Status cuda_conv(Image img, Kernel ker, float *result){
 		ker.kernel_x_dim, ker.kernel_y_dim);
 
 	cudaMemcpy(result, result_base, result_size*sizeof(float), cudaMemcpyDeviceToHost);
+	Status s;
+	s.msg_len = 0;
+	s.error = ALL_RIGHT;
+	return s;
 
 }
 

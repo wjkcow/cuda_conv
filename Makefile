@@ -23,20 +23,19 @@ AR = ar
 all: dataloop mex
  
 kernels:
-     $(CUDA)/bin/nvcc cuda_conv.cu -c -o cuda_conv.cu.o $(INC) $(NVCCFLAGS)
+	$(CUDA)/bin/nvcc cuda_conv.cu -c -o cuda_conv.cu.o $(INC) $(NVCCFLAGS)
  
 main.o:        main_dataloop.cpp
-     ${CXX} $(CFLAGS) $(INC) -o main.o main_dataloop.cpp
+	${CXX} $(CFLAGS) $(INC) -o main.o main_dataloop.cpp
  
 dataloop:     kernels main.o
-     ${CXX} $(LFLAGS) -o demo_dataloop main.o dataloop.cu.o $(LIB) $(LIBS)
+	${CXX} $(LFLAGS) -o demo_dataloop main.o dataloop.cu.o $(LIB) $(LIBS)
  
 dataloop.a:     kernels
-     ${AR} -r cuda_conv.a cuda_conv.cu.o
+	${AR} -r cuda_conv.a cuda_conv.cu.o
  
 mex:     dataloop.a
-     ${MEX} -L. -lcuda_conv -v mex_dataloop.cpp -L$(CUDA)/lib $(LIBS)
-     install_name_tool -add_rpath /usr/local/cuda/lib mex_dataloop.mexmaci64
- 
+	${MEX} -L. -lcuda_conv -v mex_dataloop.cpp -L$(CUDA)/lib $(LIBS)
+	install_name_tool -add_rpath /usr/local/cuda/lib mex_dataloop.mexmaci64
 clean:
-     rm *.o a.out *.a *.mexmaci* *~
+	rm *.o a.out *.a *.mexmaci* *~
