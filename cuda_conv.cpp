@@ -70,7 +70,8 @@ Status cuda_conv(Image img, Kernel ker, float *result){
 
 	dim3 grid(gridX, gridY);
 	dim3 block(threadX);
-	valid_conv_kernel<<<grid, block, 0, 0>>>();
+	valid_conv_kernel<<<grid, block, 0, 0>>>(img_base, ker_base, result_base, img.image_x_dim, img.image_y_dim, img.image_channel, 
+		ker.kernel_x_dim, ker.kernel_y_dim);
 
 	cudaMemcpy(result, result_base, result_size*sizeof(float), cudaMemcpyDeviceToHost);
 
