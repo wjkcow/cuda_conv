@@ -75,7 +75,8 @@ Status cuda_conv(Image img, Kernel ker, float *result){
 	dim3 block(threadX);
 	valid_conv_kernel<<<grid, block, 0, 0>>>(img_base, ker_base, result_base, img.image_x_dim, img.image_y_dim, img.image_channel, 
 		ker.kernel_x_dim, ker.kernel_y_dim);
-
+	
+	cudaError_t err = cudaDeviceSynchronize();	
 	cudaMemcpy(result, result_base, result_size*sizeof(float), cudaMemcpyDeviceToHost);
 	s.msg_len = 0;
 	s.error = ALL_RIGHT;

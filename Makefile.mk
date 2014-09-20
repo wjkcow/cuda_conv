@@ -9,14 +9,14 @@ LIB     := -L$(CUDA)/lib64
 MEX = /usr/local/MATLAB/R2013b/bin/mex
  
 # Flags for the CUDA nvcc compiler
-NVCCFLAGS :=  -arch=sm_11 --ptxas-options=-v -m 64 -g
+NVCCFLAGS :=  -O=4 -arch=sm_11 --ptxas-options=-v -m 64
 #THIS IS FOR DEBUG !!! -g -G
 # IMPORTANT : don't forget the CUDA runtime (-lcudart) !
 LIBS     := -lcudart -lcusparse -lcublas
  
 # Regular C++ part
 CXX = g++
-CFLAGS = -g -Wall -c -O0 -fPIC $(INC)
+CFLAGS = -Wall -c -O2 -fPIC $(INC)
 LFLAGS = -Wall
 AR = ar
  
